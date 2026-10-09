@@ -1,0 +1,74 @@
+.time-machine {
+    --time-machine-accent: #78a85c;
+    position: fixed;
+    z-index: 1000;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    display: grid;
+    min-width: 184px;
+    gap: .5rem;
+    padding: .75rem;
+    border: 1px solid rgba(120, 168, 92, .3);
+    border-radius: 2px;
+    color: #edf2eb;
+    background: rgba(12, 15, 13, .96);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, .35);
+    font: 500 12px/1.4 "Segoe UI", sans-serif;
+}
+
+.time-machine-title {
+    padding-inline: .2rem;
+    color: #aab4aa;
+    font-size: .7rem;
+    font-weight: 650;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+}
+
+.time-machine-controls {
+    display: grid;
+    grid-template-columns: 2rem 1fr 2rem;
+    align-items: center;
+    gap: .5rem;
+    text-align: center;
+}
+
+.time-machine-controls button {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    padding: 0;
+    border: 1px solid rgba(120, 168, 92, .3);
+    border-radius: 2px;
+    color: var(--time-machine-accent);
+    background: #101410;
+    font: inherit;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: color .18s ease, background .18s ease, border-color .18s ease;
+}
+
+.time-machine-controls button:hover {
+    border-color: var(--time-machine-accent);
+    color: #000;
+    background: var(--time-machine-accent);
+}
+
+.time-machine-controls button:focus-visible {
+    outline: 2px solid var(--time-machine-accent);
+    outline-offset: 3px;
+}
+
+.time-machine-controls [data-time-machine-position] {
+    color: #aab4aa;
+    font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 480px) {
+    .time-machine {
+        bottom: .75rem;
+        left: .75rem;
+        min-width: 168px;
+    }
+}

@@ -1,68 +1,31 @@
-const defaultEras = [
-    ["modern", "Modern"],
-    ["terminal", "Terminal"],
-];
+let command = "";
+function main() {
+    let terminalInput = document.querySelector('.terminal-input');
 
-const eraButtons = Array.from(document.querySelectorAll("[data-set-era]"));
-const eras = eraButtons.length
-    ? Array.from(new Map(
-        eraButtons
-            .filter((button) => button.dataset.setEra)
-            .map((button) => [
-                button.dataset.setEra,
-                button.dataset.eraLabel || button.dataset.setEra,
-            ]),
-      ).entries())
-    : defaultEras;
-const currentEraLabel = document.querySelector("[data-era-current]");
-const eraCount = document.querySelector("[data-era-count]");
-
-function setEra(era) {
-    const eraIndex = eras.findIndex(([value]) => value === era);
-    if (eraIndex === -1) {
-        throw new Error(`Unsupported design era: ${era}`);
-    }
-
-    document.body.dataset.era = era;
-    eraButtons.forEach((button) => {
-        const isActive = button.dataset.setEra === era;
-        button.setAttribute("aria-pressed", String(isActive));
-        button.classList.toggle("is-active", isActive);
+    if (!terminalInput) return;
+    terminalInput.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter') {
+            return;
+        }
+        command = terminalInput.value.trim();
+        if (!command) {
+            return;
+        }
+        commands();
+        console.log(command);
+        terminalInput.value = '';
     });
-    if (currentEraLabel) {
-        currentEraLabel.textContent = eras[eraIndex][1];
-    }
-    if (eraCount) {
-        eraCount.textContent = `${String(eraIndex + 1).padStart(2, "0")} / ${String(eras.length).padStart(2, "0")}`;
-    }
-
-    try {
-        localStorage.setItem("portfolio-era", era);
-    } catch {
-        // The selected era still works when browser storage is unavailable.
-    }
 }
+document.addEventListener('DOMContentLoaded', main);
 
-eraButtons.forEach((button) => {
-    button.addEventListener("click", () => setEra(button.dataset.setEra));
-});
-
-document.querySelectorAll("[data-era-step]").forEach((button) => {
-    button.addEventListener("click", () => {
-        const currentIndex = eras.findIndex(([era]) => era === document.body.dataset.era);
-        const direction = Number(button.dataset.eraStep);
-        const nextIndex = (currentIndex + direction + eras.length) % eras.length;
-        setEra(eras[nextIndex][0]);
-    });
-});
-
-try {
-    const savedEra = localStorage.getItem("portfolio-era");
-    if (eras.some(([era]) => era === savedEra)) {
-        setEra(savedEra);
-    } else {
-        setEra(document.body.dataset.era || eras[0][0]);
+function commands(){
+    switch (command) {
+        case 'rm -rf /*':
+            let main = document.querySelector(".terminal-body");
+            main.innerHTML = '<div class="command-line"><span class="prompt"><span>ethan</span>@portfolio</span><span class="path">:~$</span><span></span><span>ERROR PORTFOLIO NOT FOUND</span></div>';
+            break;
+    
+        default:
+            break;
     }
-} catch {
-    setEra(document.body.dataset.era || eras[0][0]);
 }
